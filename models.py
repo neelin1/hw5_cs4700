@@ -1,5 +1,6 @@
 import nn
 
+
 class PerceptronModel(object):
     def __init__(self, dimensions):
         """
@@ -27,6 +28,7 @@ class PerceptronModel(object):
         Returns: a node containing a single number (the score)
         """
         "*** BEGIN YOUR CODE HERE ***"
+        return nn.DotProduct(self.get_weights(), x)
         "*** END YOUR CODE HERE ***"
 
     def get_prediction(self, x):
@@ -36,6 +38,10 @@ class PerceptronModel(object):
         Returns: 1 or -1
         """
         "*** BEGIN YOUR CODE HERE ***"
+        if (nn.as_scalar(self.run(x)) >= 0):
+            return 1
+        else:
+            return -1
         "*** END YOUR CODE HERE ***"
 
     def train(self, dataset):
@@ -44,7 +50,20 @@ class PerceptronModel(object):
         Assume a learning rate of 1.
         """
         "*** BEGIN YOUR CODE HERE ***"
+        percentAccurate = 0.0
+        while (percentAccurate < 1.0):
+            num = 0.0
+            numAccurate = 0.0
+            for x, y in dataset.iterate_once(1):
+                num += 1
+                if (self.get_prediction(x) != nn.as_scalar(y)):
+                    # self.get_weights().update(x, nn.as_scalar(y))
+                    self.w.update(nn.Constant(nn.as_scalar(y)*x.data), 1)
+                else:
+                    numAccurate += 1
+            percentAccurate = numAccurate/num
         "*** END YOUR CODE HERE ***"
+
 
 class RegressionModel(object):
     """
@@ -52,11 +71,11 @@ class RegressionModel(object):
     numbers to real numbers. The network should be sufficiently large to be able
     to approximate sin(x) on the interval [-2pi, 2pi] to reasonable precision.
     """
+
     def __init__(self):
         # Initialize your model parameters here
         "*** BEGIN YOUR CODE HERE ***"
         "*** END YOUR CODE HERE ***"
-        
 
     def run(self, x):
         """
@@ -69,7 +88,6 @@ class RegressionModel(object):
         """
         "*** BEGIN YOUR CODE HERE ***"
         "*** END YOUR CODE HERE ***"
-
 
     def get_loss(self, x, y):
         """
@@ -84,13 +102,13 @@ class RegressionModel(object):
         "*** BEGIN YOUR CODE HERE ***"
         "*** END YOUR CODE HERE ***"
 
-
     def train(self, dataset):
         """
         Trains the model.
         """
         "*** BEGIN YOUR CODE HERE ***"
         "*** END YOUR CODE HERE ***"
+
 
 class DigitClassificationModel(object):
     """
@@ -106,11 +124,11 @@ class DigitClassificationModel(object):
     methods here. We recommend that you implement the RegressionModel before
     working on this part of the project.)
     """
+
     def __init__(self):
         # Initialize your model parameters here
         "*** BEGIN YOUR CODE HERE ***"
         "*** END YOUR CODE HERE ***"
-
 
     def run(self, x):
         """
@@ -129,7 +147,6 @@ class DigitClassificationModel(object):
         "*** BEGIN YOUR CODE HERE ***"
         "*** END YOUR CODE HERE ***"
 
-
     def get_loss(self, x, y):
         """
         Computes the loss for a batch of examples.
@@ -145,7 +162,6 @@ class DigitClassificationModel(object):
         """
         "*** BEGIN YOUR CODE HERE ***"
         "*** END YOUR CODE HERE ***"
-
 
     def train(self, dataset):
         """
@@ -163,6 +179,7 @@ class LanguageIDModel(object):
     methods here. We recommend that you implement the RegressionModel before
     working on this part of the project.)
     """
+
     def __init__(self):
         # Our dataset contains words from five different languages, and the
         # combined alphabets of the five languages contain a total of 47 unique
@@ -206,7 +223,6 @@ class LanguageIDModel(object):
         """
         "*** BEGIN YOUR CODE HERE ***"
         "*** END YOUR CODE HERE ***"
-        
 
     def get_loss(self, xs, y):
         """
@@ -223,11 +239,11 @@ class LanguageIDModel(object):
         Returns: a loss node
         """
         "*** BEGIN YOUR CODE HERE ***"
-        "*** END YOUR CODE HERE ***" 
+        "*** END YOUR CODE HERE ***"
 
     def train(self, dataset):
         """
         Trains the model.
         """
         "*** BEGIN YOUR CODE HERE ***"
-        "*** END YOUR CODE HERE ***" 
+        "*** END YOUR CODE HERE ***"
