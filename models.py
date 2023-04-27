@@ -156,7 +156,7 @@ class DigitClassificationModel(object):
         # Initialize your model parameters here
         "*** BEGIN YOUR CODE HERE ***"
         self.batchSize = 25
-        self.learningRate = -0.01
+        self.learningRate = -0.1
         self.w1 = nn.Parameter(784, 100)
         self.b1 = nn.Parameter(1, 100)
         self.w2 = nn.Parameter(100, 50)
@@ -248,7 +248,7 @@ class LanguageIDModel(object):
         # Initialize your model parameters here
         "*** BEGIN YOUR CODE HERE ***"
         self.batchSize = 100
-        self.learningRate = -0.01
+        self.learningRate = -0.1
         self.w1 = nn.Parameter(self.num_chars, 200)
         self.b1 = nn.Parameter(1, 200)
         self.w1I = nn.Parameter(self.num_chars, 200)
