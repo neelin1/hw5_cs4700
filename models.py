@@ -155,9 +155,8 @@ class DigitClassificationModel(object):
     def __init__(self):
         # Initialize your model parameters here
         "*** BEGIN YOUR CODE HERE ***"
-        self.batchSize = 10
+        self.batchSize = 100
         self.learningRate = -0.01
-        self.lossThreshold = 0.01
         self.w1 = nn.Parameter(784, 392)
         self.b1 = nn.Parameter(1, 392)
         self.w2 = nn.Parameter(392, 100)
@@ -212,7 +211,6 @@ class DigitClassificationModel(object):
         Trains the model.
         """
         "*** BEGIN YOUR CODE HERE ***"
-        loss = 1e99
         accuracy = 0.0
         while (accuracy < 0.98):
             for x, y in dataset.iterate_once(self.batchSize):
@@ -249,17 +247,16 @@ class LanguageIDModel(object):
 
         # Initialize your model parameters here
         "*** BEGIN YOUR CODE HERE ***"
-        self.batchSize = 10
+        self.batchSize = 100
         self.learningRate = -0.01
-        self.lossThreshold = 0.01
-        self.w1 = nn.Parameter(self.num_chars, 392)
-        self.b1 = nn.Parameter(1, 392)
-        self.w1I = nn.Parameter(self.num_chars, 392)
-        self.b1I = nn.Parameter(1, 392)
-        self.w2 = nn.Parameter(392, 196)
-        self.b2 = nn.Parameter(1, 196)
-        self.w3 = nn.Parameter(196, 98)
-        self.b3 = nn.Parameter(1, 98)
+        self.w1 = nn.Parameter(self.num_chars, 200)
+        self.b1 = nn.Parameter(1, 200)
+        self.w1I = nn.Parameter(self.num_chars, 200)
+        self.b1I = nn.Parameter(1, 200)
+        self.w2 = nn.Parameter(200, 200)
+        self.b2 = nn.Parameter(1, 200)
+        self.w3 = nn.Parameter(200, len(self.languages))
+        self.b3 = nn.Parameter(1, len(self.languages))
         # self.w4 = nn.Parameter(98, 5)
         # self.b4 = nn.Parameter(1, 5)
         "*** END YOUR CODE HERE ***"
@@ -296,9 +293,9 @@ class LanguageIDModel(object):
         "*** BEGIN YOUR CODE HERE ***"
         node = nn.ReLU(nn.AddBias(
             nn.Linear(xs[0], self.w1I), self.b1I))
-        for i in range(xs):
-            node = nn.ReLU(nn.AddBias(nn.Linear(nn.Add(
-                nn.Linear(xs[i], self.w31), node), self.w2), self.b2))
+        for i in range(len(xs)):
+            node = nn.ReLU(nn.AddBias(
+                nn.Add(nn.Linear(xs[i], self.w1), nn.Linear(node, self.w2)), self.b2))
         return nn.AddBias(nn.Linear(node, self.w3), self.b3)
         "*** END YOUR CODE HERE ***"
 
@@ -317,7 +314,7 @@ class LanguageIDModel(object):
         Returns: a loss node
         """
         "*** BEGIN YOUR CODE HERE ***"
-        return nn.SoftmaxLoss(self.run(x), y)
+        return nn.SoftmaxLoss(self.run(xs), y)
         "*** END YOUR CODE HERE ***"
 
     def train(self, dataset):
