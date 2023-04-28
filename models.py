@@ -212,7 +212,7 @@ class DigitClassificationModel(object):
         """
         "*** BEGIN YOUR CODE HERE ***"
         accuracy = 0.0
-        while (accuracy < 0.98):
+        while (accuracy < 0.975):
             for x, y in dataset.iterate_once(self.batchSize):
                 gradients = nn.gradients(
                     self.get_loss(x, y), [self.w1, self.b1, self.w2, self.b2, self.w3, self.b3])
@@ -324,7 +324,7 @@ class LanguageIDModel(object):
         "*** BEGIN YOUR CODE HERE ***"
         loss = 1e99
         accuracy = 0.0
-        while (accuracy < 0.90):
+        while (accuracy < 0.895):
             for x, y in dataset.iterate_once(self.batchSize):
                 gradients = nn.gradients(
                     self.get_loss(x, y), [self.w1, self.b1, self.w2, self.b2, self.w3, self.b3])
