@@ -155,7 +155,7 @@ class DigitClassificationModel(object):
     def __init__(self):
         # Initialize your model parameters here
         "*** BEGIN YOUR CODE HERE ***"
-        self.batchSize = 20
+        self.batchSize = 100
         self.learningRate = -0.1
         self.w1 = nn.Parameter(784, 250)
         self.b1 = nn.Parameter(1, 250)
